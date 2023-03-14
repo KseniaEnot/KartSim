@@ -73,7 +73,7 @@ namespace KartGame.AI
         public float AccelerationReward;
         #endregion
 
-        #region ResetParams
+#region ResetParams
         [Header("Inference Reset Params")]
         [Tooltip("What is the unique mask that the agent should detect when it falls out of the track?")]
         public LayerMask OutOfBoundsMask;
@@ -261,6 +261,7 @@ namespace KartGame.AI
 
         public override void OnEpisodeBegin()
         {
+            Debug.Log("New episode №" + (CompletedEpisodes + 1) + ". Time since game start:" + Time.realtimeSinceStartup);
             switch (Mode)
             {
                 case AgentMode.Training:
