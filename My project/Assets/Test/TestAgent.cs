@@ -4,8 +4,9 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
+using KartGame.KartSystems;
 
-public class TestAgent : Agent
+public class TestAgent : Agent, IInput
 {
     [SerializeField] private Transform targetTransform;
 
@@ -60,5 +61,10 @@ public class TestAgent : Agent
             SetReward(-1f);
             EndEpisode();
         }
+    }
+
+    public InputData GenerateInput()
+    {
+        throw new System.NotImplementedException();
     }
 }
