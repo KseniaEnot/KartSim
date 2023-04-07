@@ -20,12 +20,7 @@ public class DrivingAgent : Agent, IInput
     [SerializeField] private float hitDistance;
 
     [Header("Rewards")]
-    Rewards rewards;
-    /*[SerializeField] private float hitPunishment = -1f;
-    [SerializeField] private float checkpointReward = 1f;
-    [SerializeField] private float rightDirectionReward;
-    [SerializeField] private float speedReward;
-    [SerializeField] private float accelerationReward;*/
+    [SerializeField] Rewards rewards;
 
     private ArcadeKart kart;
     private InputData inputData;
@@ -50,7 +45,6 @@ public class DrivingAgent : Agent, IInput
         {
             isEpisodeEnd = false;
             AddReward(currentReward);
-            recorder.RecordReward(RewardType.Hit, currentReward, Time.realtimeSinceStartup);
             recorder.EndDataSaver(StepCount, GetCumulativeReward());
             EndEpisode();
             OnEpisodeBegin();
@@ -59,7 +53,6 @@ public class DrivingAgent : Agent, IInput
         {
             maxStepReached = false;
             AddReward(currentReward); 
-            recorder.RecordReward(RewardType.Hit, currentReward, Time.realtimeSinceStartup);
             recorder.EndDataSaver(StepCount, GetCumulativeReward());
             EpisodeInterrupted();
             OnEpisodeBegin();
@@ -91,12 +84,12 @@ public class DrivingAgent : Agent, IInput
         currentReward = 0f;
 
         int sensorLength = GetComponent<BehaviorParameters>().BrainParameters.VectorObservationSize - 3;
-        float stepRotation = 360 / sensorLength;
+        float stepRotation = 180 / sensorLength;
         var cTransform = defaultSensor.GetComponent<Transform>();
-        cTransform.localRotation = Quaternion.Euler(0, 0, 0);
+        cTransform.localRotation = Quaternion.Euler(0, -90, 0);
         for (var i = 0; i < sensorLength; i++)
         {
-            Debug.Log("Sensor rotation " + cTransform.localRotation);
+            //Debug.Log("Sensor rotation " + cTransform.localRotation);
             var hit = Physics.Raycast(transform.position, cTransform.forward, out var hitInfo,
                 sensorRayDistance, mask, QueryTriggerInteraction.Ignore);
 
@@ -104,6 +97,8 @@ public class DrivingAgent : Agent, IInput
             {
                 if (hitInfo.distance < hitDistance)
                 {
+                    Debug.Log("Hit: " + hitInfo.collider.gameObject.name);
+                    recorder.RecordReward(RewardType.Hit, rewards.hitPunishment, Time.realtimeSinceStartup);
                     currentReward += rewards.hitPunishment;
                     isEpisodeEnd = true;
                 }
