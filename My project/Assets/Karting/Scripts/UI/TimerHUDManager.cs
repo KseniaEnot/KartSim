@@ -25,7 +25,7 @@ public class TimerHUDManager : MonoBehaviour
         {   
             timerText.gameObject.SetActive(true);
             int timeRemaining = (int) Math.Ceiling(m_TimeManager.TimeRemaining);
-            timerText.text = string.Format("{0}:{1:00}", timeRemaining / 60, timeRemaining % 60);
+            timerText.text = string.Format("{0:00}:{1:00}", timeRemaining / 60, timeRemaining % 60);
         }
         else
         {

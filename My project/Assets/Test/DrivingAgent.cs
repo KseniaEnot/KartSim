@@ -152,8 +152,10 @@ public class DrivingAgent : Agent, IInput
             AddReward(rewards.checkpointReward);
             recorder.RecordReward(RewardType.Checkpoint, rewards.checkpointReward, Time.realtimeSinceStartup);
             currentCheckpoint = index;
+            GetComponent<PlayDataRecorder>().CheckpointReached(currentCheckpoint);
         }
     }
 
     public InputData GenerateInput() => inputData;
+    private void OnApplicationQuit() => recorder.EndGame();
 }

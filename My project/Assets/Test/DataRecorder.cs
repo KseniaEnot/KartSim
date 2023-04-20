@@ -9,8 +9,7 @@ using System;
 public class DataRecorder
 {
     private StreamWriter writer;
-    StreamWriter copyWriter;
-    StringBuilder builder;
+    private StringBuilder builder;
 
     string RewardsTitle = "";
     Dictionary<RewardType, RewardRecorder> rewardRecords;
@@ -20,7 +19,6 @@ public class DataRecorder
     public DataRecorder()
     {
         writer = new StreamWriter("INeedAName.csv"); 
-        copyWriter = new StreamWriter("INeedANameCopy.csv");
         builder = new StringBuilder();
         rewardRecords = new Dictionary<RewardType, RewardRecorder>();
         foreach(RewardType type in (RewardType[]) Enum.GetValues(typeof(RewardType)))
@@ -61,15 +59,11 @@ public class DataRecorder
         writer.WriteLine(builder);
     }
 
-    void BackupCopy()
+    public void EndGame()
     {
-        writer.BaseStream.CopyTo(copyWriter.BaseStream);
-        copyWriter.Write(writer);
-        copyWriter.Flush();
-        //File.Copy("INeedAName.csv", "INeedANameCopy.csv");
+        writer.Flush();
+        writer.Close();
     }
-    
-
 }
 
 public class RewardRecorder
