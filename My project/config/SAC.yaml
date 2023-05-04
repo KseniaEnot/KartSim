@@ -1,0 +1,21 @@
+behaviors:
+ArcadeDriver:
+ trainer_type: sac
+ batch_size: 64
+ buffer_size: 70000
+ buffer_init_steps: 0
+ learning_rate: 0.0003
+ learning_rate_schedule: linear
+ tau: 0.005
+ init_entcoef: 0.5
+ normalize: true
+ hidden_units: 64
+ num_layers: 2
+ vis_encode_type: simple
+ reward_signals:
+  extrinsic:
+   strength: 1.0
+   gamma: 0.99
+ max_steps: 200000
+ time_horizon: 64
+ summary_freq: 1000
