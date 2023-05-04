@@ -64,7 +64,9 @@ public class DrivingAgent : Agent, IInput
         recorder.BeginDataSaver(CompletedEpisodes + 1, Time.realtimeSinceStartup);
         if (isTrainig)
         {
-            Collider start = checkpointColliders[Random.Range(0, checkpointColliders.Length - 1)];
+            GetComponent<PlayDataRecorder>().EndTrainigEpisode();
+            currentCheckpoint = Random.Range(0, checkpointColliders.Length - 1);
+            Collider start = checkpointColliders[currentCheckpoint];
 
             transform.localRotation = start.transform.rotation;
             transform.position = start.transform.position;
@@ -117,7 +119,15 @@ public class DrivingAgent : Agent, IInput
         //get input
         inputData.TurnInput = actions.DiscreteActions[0] - 1f;
         inputData.Accelerate = actions.DiscreteActions[1] >= 1.0f;
-        inputData.Brake = !inputData.Accelerate;
+        //inputData.Accelerate = true;
+       /*if (actions.ContinuousActions[0] >= 0.33f) inputData.TurnInput = 1f;
+        else if (actions.ContinuousActions[0] <= 0.33f) inputData.TurnInput = -1f;
+        else inputData.TurnInput = 0f;
+        if (actions.ContinuousActions[0] >= 0) inputData.Accelerate = true;
+        else inputData.Accelerate = false;*/
+            
+        
+       inputData.Brake = !inputData.Accelerate;
 
         //scalar multiplier - negative if we're moving in wrong sirection
         float reward = Vector3.Dot(kart.Rigidbody.velocity.normalized, NextColliderDirection());
@@ -147,12 +157,14 @@ public class DrivingAgent : Agent, IInput
             if (checkpointColliders[i].GetInstanceID() == other.GetInstanceID())
                 index = i;
 
+        Debug.Log("Index current " + currentCheckpoint + "index triggered " + index);
+
         if (index > currentCheckpoint || index == 0 && currentCheckpoint == checkpointColliders.Length - 1)
         {
             AddReward(rewards.checkpointReward);
             recorder.RecordReward(RewardType.Checkpoint, rewards.checkpointReward, Time.realtimeSinceStartup);
             currentCheckpoint = index;
-            GetComponent<PlayDataRecorder>().CheckpointReached(currentCheckpoint);
+            GetComponent<PlayDataRecorder>().CheckpointReached(currentCheckpoint, isTrainig);
         }
     }
 

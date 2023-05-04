@@ -10,6 +10,7 @@ public class PlayDataRecorder : MonoBehaviour
     [SerializeField] private string folderName;
     
     private StreamWriter writer;
+    private StringBuilder builder;
 
     private CustomTimeManager timeManager;
     private string divider = ";";
@@ -26,13 +27,30 @@ public class PlayDataRecorder : MonoBehaviour
         filePath = folderPath + "/" + fCount + ".csv";
 
         writer = new StreamWriter(filePath);
+        builder = new StringBuilder();
     }
 
-    public void CheckpointReached(int checkpointNumber)
+    public void CheckpointReached(int checkpointNumber, bool isTrainig = false)
     {
         float time = timeManager.currentTime;
 
-        writer.WriteLine(checkpointNumber + divider + time);
+        if (isTrainig)
+        {
+            builder.Append(checkpointNumber + divider + time);
+        }
+        else
+        {
+            writer.WriteLine(checkpointNumber + divider + time + divider);
+        }
+    }
+
+    public void EndTrainigEpisode()
+    {
+        if (builder != null)
+        {
+            writer.WriteLine(builder.ToString());
+            builder.Clear();
+        }
     }
 
     private void OnApplicationQuit()
