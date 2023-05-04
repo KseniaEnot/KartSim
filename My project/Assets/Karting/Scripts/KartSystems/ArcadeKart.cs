@@ -80,7 +80,7 @@ namespace KartGame.KartSystems
         {
             TopSpeed            = 10f,
             Acceleration        = 5f,
-            AccelerationCurve   = 4f,
+            AccelerationCurve   = 0.5f,
             Braking             = 10f,
             ReverseAcceleration = 5f,
             ReverseSpeed        = 5f,
@@ -172,7 +172,7 @@ namespace KartGame.KartSystems
 
         // can the kart move?
         bool m_CanMove = true;
-        List<StatPowerup> m_ActivePowerupList = new List<StatPowerup>();
+        [SerializeField] List<StatPowerup> m_ActivePowerupList = new List<StatPowerup>();
         ArcadeKart.Stats m_FinalStats;
 
         Quaternion m_LastValidRotation;
