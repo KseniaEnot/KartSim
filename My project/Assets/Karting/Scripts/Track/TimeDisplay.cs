@@ -10,6 +10,8 @@ namespace KartGame.Track
     public class TimeDisplay : MonoBehaviour
     {
 
+        [Tooltip("ihihihi")]
+        public List<GameObject> places;
         [Tooltip("Display the time for the current lap.")]
         public TimeDisplayItem currentLapText;
         [Tooltip("Display the time for the best lap.")]
@@ -30,6 +32,9 @@ namespace KartGame.Track
 
         private List<TimeDisplayItem> lapTimesText = new List<TimeDisplayItem>();
 
+        //private DDA_m dda;
+
+
         private bool lapsOver;
         void Awake()
         {
@@ -38,6 +43,7 @@ namespace KartGame.Track
             currentLapText.SetTitle("Current:");
             bestLapText.SetTitle("Best Lap:");
             currentLapStartTime = 0;
+            
             lapsOver = false;
         }
 
@@ -102,6 +108,7 @@ namespace KartGame.Track
             }
 
             finishedLapTimes.Add(Time.time - currentLapStartTime);
+            //Debug.Log("Lap time:" + (Time.time - currentLapStartTime));
             currentLapStartTime = Time.time;
             
             AddFinishedLapTime(finishedLapTimes.Count - 1);
