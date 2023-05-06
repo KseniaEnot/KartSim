@@ -36,7 +36,7 @@ public class PlayDataRecorder : MonoBehaviour
 
         if (isTrainig)
         {
-            builder.Append(checkpointNumber + divider + time);
+            builder.Append(checkpointNumber + divider + time + divider);
         }
         else
         {
