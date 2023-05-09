@@ -44,7 +44,7 @@ public class DataRecorder
 
     public void RecordReward(RewardType type, float amount, float time)
     {
-        rewardRecords[type].Record(amount.ToString() + " ");
+        rewardRecords[type].Record(amount.ToString() + " + ");
         //builder.Append(amount + " ");
     }
 
