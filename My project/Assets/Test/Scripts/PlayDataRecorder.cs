@@ -14,6 +14,7 @@ public class PlayDataRecorder : MonoBehaviour
 
     private CustomTimeManager timeManager;
     private string divider = ";";
+    private int recordedHits = 0;
 
     private void Start()
     {
@@ -44,13 +45,20 @@ public class PlayDataRecorder : MonoBehaviour
         }
     }
 
+    public void WasHit(bool isTrainig = false)
+    {
+        if (!isTrainig) recordedHits++;
+    }
+
     public void EndTrainigEpisode()
     {
         if (builder != null)
         {
+            builder.Append(recordedHits);
             writer.WriteLine(builder.ToString());
             builder.Clear();
         }
+        recordedHits = 0;
     }
 
     private void OnApplicationQuit()
