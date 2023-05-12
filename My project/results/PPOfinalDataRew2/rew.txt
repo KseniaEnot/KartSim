@@ -1,0 +1,4 @@
+hit -1
+checkpoint 1
+dir 0.03
+speed 0.01
