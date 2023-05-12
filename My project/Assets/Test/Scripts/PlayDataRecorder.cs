@@ -41,7 +41,8 @@ public class PlayDataRecorder : MonoBehaviour
         }
         else
         {
-            writer.WriteLine(checkpointNumber + divider + time + divider);
+            writer.WriteLine(checkpointNumber + divider + time + divider + recordedHits);
+            recordedHits = 0;
         }
     }
 
@@ -54,11 +55,10 @@ public class PlayDataRecorder : MonoBehaviour
     {
         if (builder != null)
         {
-            builder.Append(recordedHits);
+            //builder.Append(recordedHits + divider);
             writer.WriteLine(builder.ToString());
             builder.Clear();
         }
-        recordedHits = 0;
     }
 
     private void OnApplicationQuit()

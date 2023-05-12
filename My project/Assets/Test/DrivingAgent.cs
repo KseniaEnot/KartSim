@@ -100,6 +100,7 @@ public class DrivingAgent : Agent, IInput
                 if (hitInfo.distance < hitDistance)
                 {
                     Debug.Log("Hit: " + hitInfo.collider.gameObject.name);
+                    GetComponent<PlayDataRecorder>().WasHit(isTrainig);
                     recorder.RecordReward(RewardType.Hit, rewards.hitPunishment, Time.realtimeSinceStartup);
                     currentReward += rewards.hitPunishment;
                     isEpisodeEnd = true;
