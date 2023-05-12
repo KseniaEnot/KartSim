@@ -14,10 +14,13 @@ public class DataRecorder
     Dictionary<RewardType, RewardRecorder> rewardRecords;
 
     string divider = ";";
+    float speedRev = 0f;
+    float dirRew = 0f;
 
-    public DataRecorder()
+    public DataRecorder(string fileName = "INeedAName")
     {
-        writer = new StreamWriter("INeedAName.csv"); 
+        writer = new StreamWriter(fileName + ".csv");
+        writer.AutoFlush = true;
         builder = new StringBuilder();
         rewardRecords = new Dictionary<RewardType, RewardRecorder>();
         foreach(RewardType type in (RewardType[]) Enum.GetValues(typeof(RewardType)))
@@ -33,7 +36,11 @@ public class DataRecorder
     public void BeginDataSaver(int episodeNumber, float time)
     {
         Debug.Log("New episode №" + episodeNumber + ". Time since game start:" + time);
-        //if (episodeNumber % 10 == 0) BackupCopy();
+        if (episodeNumber % 500 == 0) writer.Flush();
+        if (speedRev != 0)
+        {
+            EndDataSaver(5000, 0);
+        }
         builder.Clear();
         builder.Append(episodeNumber + divider + time + divider);
         foreach (RewardType type in (RewardType[])Enum.GetValues(typeof(RewardType)))
@@ -44,7 +51,9 @@ public class DataRecorder
 
     public void RecordReward(RewardType type, float amount, float time)
     {
-        rewardRecords[type].Record(amount.ToString() + " + ");
+        if (type == RewardType.Speed) speedRev += amount;
+        else if (type == RewardType.Direction) dirRew += amount;
+        else rewardRecords[type].Record(amount.ToString() + " + ");
         //builder.Append(amount + " ");
     }
 
@@ -52,10 +61,16 @@ public class DataRecorder
     {
         foreach (RewardType type in (RewardType[])Enum.GetValues(typeof(RewardType)))
         {
-            builder.Append(rewardRecords[type].StrBuilder + divider);
+            if (type == RewardType.Speed) builder.Append(speedRev + divider);
+            else if (type == RewardType.Direction) builder.Append(dirRew + divider);
+            else builder.Append(rewardRecords[type].StrBuilder + divider);
         }
         builder.Append(step + divider + reward);
         writer.WriteLine(builder);
+        writer.Flush();
+        builder.Clear();
+        speedRev = 0;
+        dirRew = 0;
     }
 
     public void EndGame()

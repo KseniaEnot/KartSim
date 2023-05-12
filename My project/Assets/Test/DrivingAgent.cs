@@ -21,6 +21,7 @@ public class DrivingAgent : Agent, IInput
 
     [Header("Rewards")]
     [SerializeField] Rewards rewards;
+    [SerializeField] string outputFile = "0";
 
     private ArcadeKart kart;
     private InputData inputData;
@@ -34,7 +35,7 @@ public class DrivingAgent : Agent, IInput
     private void Awake()
     {
         kart = GetComponent<ArcadeKart>();
-        recorder = new DataRecorder();
+        recorder = new DataRecorder(outputFile);
     }
 
     private void Start() => OnEpisodeBegin();
@@ -160,7 +161,7 @@ public class DrivingAgent : Agent, IInput
 
         Debug.Log("Index current " + currentCheckpoint + "index triggered " + index);
 
-        if (index > currentCheckpoint || index == 0 && currentCheckpoint == checkpointColliders.Length - 1)
+        if (index == currentCheckpoint + 1 || index == 0 && currentCheckpoint == checkpointColliders.Length - 1)
         {
             AddReward(rewards.checkpointReward);
             recorder.RecordReward(RewardType.Checkpoint, rewards.checkpointReward, Time.realtimeSinceStartup);
