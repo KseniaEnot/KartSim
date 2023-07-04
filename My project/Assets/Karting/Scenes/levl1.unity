@@ -6162,7 +6162,7 @@ PrefabInstance:
     - target: {fileID: 4496994538757024287, guid: d5cf9c31208d745c1856acc71c9cb1ca,
         type: 3}
       propertyPath: lapsToComplete
-      value: 4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4496994538757024287, guid: d5cf9c31208d745c1856acc71c9cb1ca,
         type: 3}
@@ -14635,6 +14635,10 @@ MonoBehaviour:
   - 12.3
   - 18.4
   - 10.77
+  - 15.38
+  - 18.46
+  - 10.77
+  - 18.46
   - 15.38
 --- !u!1001 &1536282710
 PrefabInstance:

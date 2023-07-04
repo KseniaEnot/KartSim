@@ -20,7 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Karting/Scenes/levl3.unity
     guid: 18cebc3d8d0602242b466348fba2a85b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Karting/Scenes/levl2.unity
     guid: 6e67f85f9149944439fe1e32cb1f4d83
   m_configObjects: {}
